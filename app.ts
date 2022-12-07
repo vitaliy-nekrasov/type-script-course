@@ -27,15 +27,15 @@ let person: [string, number];
 person = ["Max", 21];
 
 // Опишите enum условие следующее, он должен отображать статус загрузки. Загружается (LOADING) и загружена (READY).
-enum Loading {
+enum IsLoading {
   LOADING,
   READY,
 }
 const image = {
-  isLoading: Loading.READY,
+  isLoading: IsLoading.READY,
 };
-if (image.isLoading === Loading.READY) {
-  console.log("IsLoading: ", Loading.READY);
+if (image.isLoading === IsLoading.READY) {
+  console.log("IsLoading: ", IsLoading.READY);
 }
 
 // Сделайте переменную, которая может принимать или строку или число.
