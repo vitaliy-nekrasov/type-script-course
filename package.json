@@ -18,9 +18,7 @@
     "url": "https://github.com/vitaliy-nekrasov/type-script-course/issues"
   },
   "homepage": "https://github.com/vitaliy-nekrasov/type-script-course#readme",
-  "dependencies": {
-    "typescript": "^4.9.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "lite-server": "^2.6.1"
   }
