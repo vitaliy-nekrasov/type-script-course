@@ -1,0 +1,27 @@
+{
+  "name": "type-script-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitaliy-nekrasov/type-script-course.git"
+  },
+  "keywords": [],
+  "author": "Vitaliy Nekrasov <vitaliynekrasov1@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitaliy-nekrasov/type-script-course/issues"
+  },
+  "homepage": "https://github.com/vitaliy-nekrasov/type-script-course#readme",
+  "dependencies": {
+    "typescript": "^4.9.3"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
