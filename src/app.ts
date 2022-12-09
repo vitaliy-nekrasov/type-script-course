@@ -1,97 +1,77 @@
-// Задайте правильные ts типы, для классических js
-let age: number = 50;
-let nameValue: string = "Max";
-let toggle: boolean = true;
-let empty: null = null;
-let notInitialize: undefined = undefined;
-let callback = (a: number): number => {
-  return 100 + a;
-};
+// Давайте построим дом.
 
-// Задавайте тип для переменной в которую можно сохранить любое значение.
-let anything: any = -20;
-anything = "Text";
-anything = {};
+// Создайте абстрактный класс House в нем должны быть следующая логика
 
-// Исправьте код с переменной unknown, чтобы в него можно было сохранить переменную с текстом.
-let some: unknown;
-some = "Text";
-let str: string;
-if (typeof some === "string") {
-  str = some;
+// свойство door, она может быть либо закрыта, либо открыта.
+// свойство key - объект класса Key.
+// конструктор принимает аргумент класса Key и сохраняет его в свойство key.
+// метод comeIn, который добавляет объект класса Person в свойство tenants и это срабатывает только если door открыта.
+// абстрактный метод openDoor принимает аргумент класса Key
+// Создайте класс MyHouse который реализует класс House
+
+// создаем метод openDoor, так как он принимает ключ, сверяем сохраненный ключ в свойстве key равен ли он ключу из аргумента, если да, открываем дверь.
+// Создайте объект Key
+
+// есть только свойство signature
+// во время создания объекта генерирует случайное число и сохраняет его в signature
+// метод getSignature возвращает случайное число из signature
+// Создайте объект Person
+
+// конструктор принимает ключ класса Key и сохраняет его в свойство key
+// метод getKey возвращает key
+// Сделайте так, чтобы жилец попал домой.
+
+class Key {
+  private signature: number;
+
+  constructor() {
+    this.signature = Math.random();
+  }
+
+  getSignature(): number {
+    return this.signature;
+  }
 }
 
-// Сделайте неизменяемый массив со строго описанными типами. Массив для примера.
-// let person = ['Max', 21];
-let person: [string, number];
-person = ["Max", 21];
-
-// Опишите enum условие следующее, он должен отображать статус загрузки.
-// Загружается(LOADING) и загружена(READY).
-enum IsLoading {
-  LOADING,
-  READY,
-}
-const image = {
-  isLoading: IsLoading.READY,
-};
-if (image.isLoading === IsLoading.READY) {
-  console.log("IsLoading: ", IsLoading.READY, "Изображение загрузилось");
-}
-if (image.isLoading === IsLoading.LOADING) {
-  console.log("IsLoading: ", IsLoading.LOADING, "Изображение загружается");
+class Person {
+  constructor(private key: Key) {}
+  getKey(): Key {
+    return this.key;
+  }
 }
 
-// Сделайте переменную, которая может принимать или строку или число.
-let personAge: string | number;
-personAge = 10;
-personAge = "10";
+abstract class House {
+  protected door = false;
+  private tenants: Person[] = [];
+  constructor(protected key: Key) {}
 
-// Сделайте переменную, которая может принимать только одно значение из двух 'enable'
-// или 'disable'
-let darkThemeIsEnable: "enable" | "disable";
-darkThemeIsEnable = "enable";
-darkThemeIsEnable = "disable";
+  comeIn(person: Person): void {
+    if (!this.door) {
+      throw new Error("Door is close");
+    }
 
-// Укажите типы для следующих функций
-function showMessage(message: string): void {
-  console.log(message);
+    this.tenants.push(person);
+    console.log("Person inside");
+  }
+
+  abstract openDoor(key: Key): boolean;
 }
 
-function calc(num1: number, num2: number): number {
-  return num1 + num2;
+class MyHouse extends House {
+  openDoor(key: Key) {
+    if (key.getSignature() !== this.key.getSignature()) {
+      throw new Error("Key to another door");
+    }
+
+    return (this.door = true);
+  }
 }
 
-function customError(): never {
-  throw new Error("Error");
-}
+const key = new Key();
 
-// Создайте свой тип данных на основе имеющихся данных.
-type DataType = {
-  title: string;
-  likes: number;
-  accounts: string[];
-  status: "open" | "close";
-  details?: {
-    createAt: string;
-    updateAt: string;
-  };
-};
+const house = new MyHouse(key);
+const person = new Person(key);
 
-const page1: DataType = {
-  title: "The awesome page",
-  likes: 100,
-  accounts: ["Max", "Anton", "Nikita"],
-  status: "open",
-  details: {
-    createAt: "2021-01-01",
-    updateAt: "2021-05-01",
-  },
-};
+house.openDoor(person.getKey());
 
-const page2: DataType = {
-  title: "Python or Js",
-  likes: 5,
-  accounts: ["Alex"],
-  status: "close",
-};
+house.comeIn(person);
