@@ -1,77 +1,60 @@
-// Давайте построим дом.
+// 1. Есть функция которая возвращает Promise, он возвращает массив строк и чисел,
+// опишите правильно тип.
 
-// Создайте абстрактный класс House в нем должны быть следующая логика
-
-// свойство door, она может быть либо закрыта, либо открыта.
-// свойство key - объект класса Key.
-// конструктор принимает аргумент класса Key и сохраняет его в свойство key.
-// метод comeIn, который добавляет объект класса Person в свойство tenants и это срабатывает только если door открыта.
-// абстрактный метод openDoor принимает аргумент класса Key
-// Создайте класс MyHouse который реализует класс House
-
-// создаем метод openDoor, так как он принимает ключ, сверяем сохраненный ключ в свойстве key равен ли он ключу из аргумента, если да, открываем дверь.
-// Создайте объект Key
-
-// есть только свойство signature
-// во время создания объекта генерирует случайное число и сохраняет его в signature
-// метод getSignature возвращает случайное число из signature
-// Создайте объект Person
-
-// конструктор принимает ключ класса Key и сохраняет его в свойство key
-// метод getKey возвращает key
-// Сделайте так, чтобы жилец попал домой.
-
-class Key {
-  private signature: number;
-
-  constructor() {
-    this.signature = Math.random();
-  }
-
-  getSignature(): number {
-    return this.signature;
-  }
+function getPromise(): Promise<Array<string | number>> {
+  return new Promise((resolve) => {
+    resolve(["Text", 50]);
+  });
 }
 
-class Person {
-  constructor(private key: Key) {}
-  getKey(): Key {
-    return this.key;
-  }
+getPromise().then((data) => {
+  console.log(data);
+});
+
+// 2. У вас есть следующий тип данных
+
+type AllType = {
+  name: string;
+  position: number;
+  color: string;
+  weight: number;
+};
+
+// Есть функция, она принимает два аргумента, в один попадает name и color в другую часть
+// position и weight.Нужно явно указать, что эти поля из AllType.И сама функция возвращает
+// AllType.Воспользуйтесь Pick.
+
+function compare(
+  top: Pick<AllType, "name" | "color">,
+  bottom: Pick<AllType, "position" | "weight">
+): AllType {
+  return {
+    name: top.name,
+    color: top.color,
+    position: bottom.position,
+    weight: bottom.weight,
+  };
 }
 
-abstract class House {
-  protected door = false;
-  private tenants: Person[] = [];
-  constructor(protected key: Key) {}
+// 3. Укажите дженерики для функции объединения объектов.
 
-  comeIn(person: Person): void {
-    if (!this.door) {
-      throw new Error("Door is close");
-    }
-
-    this.tenants.push(person);
-    console.log("Person inside");
-  }
-
-  abstract openDoor(key: Key): boolean;
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
 }
 
-class MyHouse extends House {
-  openDoor(key: Key) {
-    if (key.getSignature() !== this.key.getSignature()) {
-      throw new Error("Key to another door");
-    }
+// 4. У вас есть следующие классы.
+// Только добавляя дженерики для классов и интерфейс уберите ошибку.
 
-    return (this.door = true);
-  }
+class Component<T> {
+  constructor(public props: T) {}
 }
 
-const key = new Key();
+interface IProps {
+  title: string;
+}
 
-const house = new MyHouse(key);
-const person = new Person(key);
-
-house.openDoor(person.getKey());
-
-house.comeIn(person);
+class Page extends Component<IProps> {
+  pageInfo() {
+    console.log(this.props.title);
+  }
+}
